@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Resources</title>
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #f4f4f4;
+            color: #333;
+            background-image: linear-gradient(to right, #f4f4f4, #e8f5e9);
+            margin: 0;
+            padding: 0;
+      }
+      .navbar {
+        background-color: #8EBA66;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        flex-wrap: wrap;
+      }
+    .navbar img {
+        width: 40px;
+        height: 40px;
+        box-shadow: none;
+        margin-right: 10px;
+      }
+    .navbar a{
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: transform 0.3s ease;
+        border-radius: 5px;
+      }
+      .navbar a:hover {
+        background-color: #47763B;
+        transform: scale(1.05);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+        .sidebar {
+            width: 200px;
+            background-color: #8EBA66;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #47763B;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: calc(100% - 220px);
+            margin-left: 220px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 80px;
+        }
+        h1 {
+            color: #8EBA66;
+            font-family: 'Merriweather', serif;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            position: relative;
+            width: calc(50% - 20px); /* Adjusted width */
+            margin: 10px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            min-height: 150px; /* Ensure enough height for content */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #8EBA66;
+            word-break: break-word;
+        }
+        .card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .card .description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            opacity: 0;
+            overflow-y: auto;
+            transition: opacity 0.3s ease;
+            text-align: left;
+            font-size: 14px;
+            pointer-events: none; /* Allow checkbox to be clickable */
+        }
+        .card:hover .description {
+            opacity: 1;
+            pointer-events: auto; /* Allow interactions when hovered */
+        }
+        <% if (status === 'admin') { %>
+            .card input[type="checkbox"] {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 2;
+            }
+        <% } %>
+        .plus-button, .delete-button {
+            display: none; /* Hide buttons initially */
+        }
+        <% if (status === 'admin') { %>
+            .plus-button, .delete-button {
+                display: block; /* Show buttons for admin */
+            }
+        <% } %>
+        .plus-button, .delete-button {
+            position: fixed;
+            background-color: #8EBA66;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .plus-button {
+            bottom: 20px;
+            right: 20px;
+        }
+        .delete-button {
+            background-color: #E74C3C; /* Red button for delete */
+            bottom: 80px; /* Adjust position above the plus button */
+            right: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar a {
+                padding: 10px 0;
+            }
+            .container {
+                width: 90%;
+                margin-left: 0;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .card {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar img {
+                width: 30px;
+                height: 30px;
+            }
+            .navbar a, .sign-in {
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"></a>
+        <a href="/advice/grammar">Advice</a>
+        <a href="/opportunities">Opportunities</a>
+        <a href="/calendar">Calendar</a>
+        <a href="/fellows">Fellows</a>
+    </div>
+    <div class="sidebar">
+        <a href="#" class="resource-link" data-type="opportunities">Opportunities</a>
+        <a href="#" class="resource-link" data-type="writing-help">Writing Help</a>
+        <a href="#" class="resource-link" data-type="important-documents">Important Documents</a>
+        <a href="#" class="resource-link" data-type="additional-resources">Additional Resources</a>
+    </div>
+    <div class="container">
+        <h1 id="resourceTitle">Opportunities</h1>
+        <form id="deleteForm" action="/opportunities/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete the selected resources?');">
+            <div class="grid" id="resourceGrid">
+                <!-- Resources will be dynamically inserted here -->
+            </div>
+            <% if (status === 'admin') { %>
+                <a href="opportunities/new"><button type="button" class="plus-button">+</button></a>
+                <button type="submit" class="delete-button">-</button>
+            <% } %>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const opportunities = <%- JSON.stringify(opportunities) %>;
+            const resourceLinks = document.querySelectorAll('.resource-link');
+            const resourceTitle = document.getElementById('resourceTitle');
+            const resourceGrid = document.getElementById('resourceGrid');
+            const plusButton = document.querySelector('.plus-button');
+
+            function renderResources(type) {
+                resourceTitle.textContent = type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ');
+                resourceGrid.innerHTML = '';
+                const filteredResources = opportunities.filter(resource => resource.type === type);
+                filteredResources.forEach(resource => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.innerHTML = `
+                        <% if (status === 'admin') { %>
+                        <input type="checkbox" name="resources" value="${resource._id}">
+                        <% } %>
+                        <a href="${resource.link}" target="_blank">
+                            <h2>${resource.title}</h2>
+                            ${resource.deadline ? `<p>Due Date: ${new Date(resource.deadline).toDateString()}</p>` : ''}
+                            <div class="description">
+                                <p>${resource.description}</p>
+                            </div>
+                        </a>
+                    `;
+                    resourceGrid.appendChild(card);
+                });
+
+                if (status === 'admin') {
+                    plusButton.href = `/${type}/new`;
+                }
+            }
+
+            resourceLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const type = link.dataset.type;
+                    renderResources(type);
+
+                    resourceLinks.forEach(link => link.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Initial render
+            renderResources('opportunities');
+        });
+    </script>
+</body>
+</html>

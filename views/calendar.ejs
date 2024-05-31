@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .navbar {
+            background-color: #8EBA66;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .navbar img {
+            width: 30px;
+            height: 30px;
+            box-shadow: none;
+            margin-right: 10px;
+        }
+        .navbar a {
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.3s ease;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #47763B;
+            transform: scale(1.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+      
+        .calendar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            width: 100%;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 10px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .calendar div {
+            background-color: #A9DFBF;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .calendar div:hover {
+            background-color: #85C1E9;
+        }
+        .calendar div h3 {
+            margin: 0;
+            font-size: 18px;
+            color: white;
+        }
+        .calendar div .event {
+            background-color: #87CFB1;
+            padding: 5px;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .calendar div .event:hover {
+            background-color: #DEF2EA;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .calendar-header button {
+            background-color: #8EBA66;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .calendar-header button:hover {
+            background-color: #47763B;
+            transform: scale(1.05);
+        }
+        .edit-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #8EBA66;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .edit-button.active {
+            background-color: #47763B;
+        }
+        .form-container {
+            display: none;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 300px;
+        }
+        .form-container input, .form-container textarea {
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #8EBA66;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .form-container button:hover {
+            background-color: #47763B;
+            transform: scale(1.05);
+        }
+        .event-popup {
+            display: none;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 300px;
+        }
+        .event-popup h3 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .event-popup p {
+            margin: 5px 0;
+        }
+        .event-popup .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            color: #888;
+        }
+          @media (max-width: 768px) {
+      .container {
+        width: 90%;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      .poster-image {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .navbar a {
+        padding: 10px 0;
+      }
+      .container {
+        width: 90%;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      .poster-image {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar img {
+        width: 30px;
+        height: 30px;
+      }
+      .navbar a, .sign-in {
+        font-size: 14px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+      }
+    }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"> <!-- Logo --></a>
+        <a href="/advice/grammar">Advice</a>
+        <a href="/opportunities">Resources</a>
+        <a href="/calendar">Calendar</a>
+        <a href="/fellows">Fellows</a>
+    </div>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button onclick="prevMonth()"><i class="fas fa-arrow-left"></i></button>
+            <h2 id="month-year"></h2>
+            <button onclick="nextMonth()"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="calendar" id="calendar"></div>
+    </div>
+    <% if (user && user.status === 'admin') { %>
+        <button class="edit-button" id="editButton" onclick="toggleEditMode()"><i class="fas fa-pencil-alt"></i></button>
+    <% } %>
+    <div class="form-container" id="eventForm">
+        <input type="text" id="eventTitle" placeholder="Event Title">
+        <input type="text" id="eventTime" placeholder="Time Interval (e.g., 10:00 - 12:00)">
+        <textarea id="eventDescription" placeholder="Event Description"></textarea>
+        <button onclick="saveEvent()">Save Event</button>
+    </div>
+    <div class="event-popup" id="eventPopup">
+        <span class="close-btn" onclick="closeEventPopup()">&times;</span>
+        <h3 id="popupTitle"></h3>
+        <p><strong>Time:</strong> <span id="popupTime"></span></p>
+        <p><strong>Description:</strong> <span id="popupDescription"></span></p>
+    </div>
+    <script>
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let editMode = false;
+
+        const calendar = document.getElementById('calendar');
+        const monthYear = document.getElementById('month-year');
+        const eventForm = document.getElementById('eventForm');
+        const editButton = document.getElementById('editButton');
+        const eventPopup = document.getElementById('eventPopup');
+        let events = <%- JSON.stringify(events) %>;
+
+        function renderCalendar(month, year) {
+            calendar.innerHTML = '';
+            const firstDay = new Date(year, month).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            monthYear.innerHTML = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendar.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.innerHTML = `<h3>${day}</h3>`;
+                const eventForDay = events.filter(event => {
+                    const eventDate = new Date(event.date);
+                    return eventDate.getDate() === day && eventDate.getMonth() === month && eventDate.getFullYear() === year;
+                });
+
+                eventForDay.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('event');
+                    eventElement.innerText = event.title;
+                    eventElement.onclick = () => showEventPopup(event);
+                    dayCell.appendChild(eventElement);
+                });
+
+                if (editMode) {
+                    dayCell.onclick = () => openEventForm(day, month, year);
+                }
+
+                calendar.appendChild(dayCell);
+            }
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        }
+
+        function toggleEditMode() {
+            editMode = !editMode;
+            editButton.classList.toggle('active');
+            renderCalendar(currentMonth, currentYear);
+        }
+
+        function openEventForm(day, month, year) {
+            eventForm.style.display = 'flex';
+            eventForm.dataset.date = new Date(year, month, day).toISOString();
+        }
+
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const time = document.getElementById('eventTime').value;
+            const description = document.getElementById('eventDescription').value;
+            const date = eventForm.dataset.date;
+
+            fetch('/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, time, description, date })
+            })
+            .then(response => response.json())
+            .then(data => {
+                events.push(data);
+                eventForm.style.display = 'none';
+                renderCalendar(currentMonth, currentYear);
+            });
+        }
+
+        function showEventPopup(event) {
+            document.getElementById('popupTitle').textContent = event.title;
+            document.getElementById('popupTime').textContent = event.time;
+            document.getElementById('popupDescription').textContent = event.description;
+            eventPopup.style.display = 'flex';
+        }
+
+        function closeEventPopup() {
+            eventPopup.style.display = 'none';
+        }
+
+        renderCalendar(currentMonth, currentYear);
+    </script>
+</body>
+</html>

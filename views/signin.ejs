@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Merriweather', serif;
+      background-color: #F4FFE6; /* Very light green */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #8EBA66;
+      font-family: 'Merriweather', serif;
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    input, select {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      text-align: center; /* Center the text horizontally */
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #8EBA66;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.3s;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #47763B;
+      transform: scale(1.05);
+    }
+    .slider-container {
+      width: 100%;
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #8EBA66;
+      text-align: center; /* Center the labels */
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      margin: 10px 0;
+      background: transparent;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      animate: 0.2s;
+      background: linear-gradient(to right, #8EBA66 0%, #8EBA66 var(--range-percent), white var(--range-percent), white 100%);
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      border: 1px solid #8EBA66;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -14px;
+    }
+    input[type="range"]:focus::-webkit-slider-runnable-track {
+      background: linear-gradient(to right, #8EBA66 0%, #8EBA66 var(--range-percent), white var(--range-percent), white 100%);
+    }
+    input[type="range"]::-moz-range-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      animate: 0.2s;
+      background: linear-gradient(to right, #8EBA66 0%, #8EBA66 var(--range-percent), white var(--range-percent), white 100%);
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    }
+    input[type="range"]::-moz-range-thumb {
+      border: 1px solid #8EBA66;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    input[type="range"]::-ms-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      animate: 0.2s;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+    input[type="range"]::-ms-fill-lower {
+      background: #8EBA66;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+    }
+    input[type="range"]::-ms-fill-upper {
+      background: white;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+    }
+    input[type="range"]::-ms-thumb {
+      border: 1px solid #8EBA66;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #ffffff;
+      cursor: pointer;
+      height: 8.4px;
+    }
+    input[type="range"]:focus::-ms-fill-lower {
+      background: #8EBA66;
+    }
+    input[type="range"]:focus::-ms-fill-upper {
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sign In</h1>
+    <form id="signinForm" action="/signin" method="POST">
+      <input type="text" name="name" placeholder="Name" required>
+      <input type="text" name="grade" placeholder="Grade" required>
+      <input type="text" name="assignment" placeholder="Assignment" required>
+      <div class="slider-container">
+        <label for="noiseLevel">Noise Level</label>
+        <input type="range" id="noiseLevel" name="noiseLevel" min="1" max="10" oninput="this.style.setProperty('--range-percent', `${this.value * 10}%`)">
+      </div>
+      <div class="slider-container">
+        <label for="helpfulness">Helpfulness</label>
+        <input type="range" id="helpfulness" name="helpfulness" min="1" max="10" oninput="this.style.setProperty('--range-percent', `${this.value * 10}%`)">
+      </div>
+      <input type="hidden" id="startTime" name="startTime">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('startTime').value = new Date().toISOString();
+    });
+  </script>
+</body>
+</html>

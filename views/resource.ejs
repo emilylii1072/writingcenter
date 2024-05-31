@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title><%= type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ') %></title>
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        .navbar {
+            background-color: #8EBA66;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            box-shadow: none;
+            margin-right: 10px;
+        }
+        .navbar a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #47763B;
+            transform: scale(1.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #8EBA66;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #47763B;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: calc(100% - 220px);
+            margin-top: 60px;
+            overflow-y: auto;
+        }
+        .content h1 {
+            color: #8EBA66;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            position: relative;
+            width: 30%;
+            margin: 10px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #8EBA66;
+        }
+        .card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .card .description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            opacity: 0;
+            overflow-y: auto;
+            transition: opacity 0.3s ease;
+            text-align: left;
+            font-size: 14px;
+            pointer-events: none;
+        }
+        .card:hover .description {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .card input[type="checkbox"] {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+        }
+        .plus-button, .delete-button {
+            display: none; /* Hide buttons initially */
+        }
+        <% if (status == 'admin') { %>
+            .plus-button, .delete-button {
+                display: block; /* Show buttons for admin */
+            }
+        <% } %>
+        .plus-button, .delete-button {
+            position: fixed;
+            background-color: #8EBA66;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .plus-button {
+            bottom: 20px;
+            right: 20px;
+        }
+        .delete-button {
+            background-color: #E74C3C; /* Red button for delete */
+            bottom: 80px; /* Adjust position above the plus button */
+            right: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar a {
+                padding: 10px 0;
+            }
+            .container {
+                width: 90%;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .card {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar img {
+                width: 30px;
+                height: 30px;
+            }
+            .navbar a, .sign-in {
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"> <!-- Logo --></a>
+        <a href="/advice/grammar">Advice</a>
+        <a href="/opportunities">Opportunities</a>
+        <a href="/calendar">Calendar</a>
+        <a href="/writing-help">Writing Help</a>
+        <a href="/information">Information</a>
+        <a href="/fellows">Fellows</a>
+    </div>
+    <div class="sidebar">
+        <a href="opportunities" class="<%= type === 'opportunities' ? 'active' : '' %>">Opportunities</a>
+        <a href="writing-help" class="<%= type === 'writing-help' ? 'active' : '' %>">Writing Help</a>
+        <a href="important-documents" class="<%= type === 'important-documents' ? 'active' : '' %>">Important Documents</a>
+        <a href="additional-resources" class="<%= type === 'additional-resources' ? 'active' : '' %>">Additional Resources</a>
+    </div>
+    <div class="content">
+        <h1><%= type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ') %></h1>
+        <form id="deleteForm" action="/resources/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete the selected items?');">
+            <div class="grid">
+                <% resources.forEach(resource => { %>
+                    <div class="card">
+                        <input type="checkbox" name="ids" value="<%= resource._id %>">
+                        <h2><%= resource.title %></h2>
+                        <% if (resource.time) { %>
+                            <p>Time: <%= resource.time %></p>
+                        <% } %>
+                        <p><a href="<%= resource.link %>">Link</a></p>
+                        <div class="description">
+                            <p><%= resource.description %></p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+            <% if (status == 'admin') { %>
+                <a href="new"><button type="button" class="plus-button">+</button></a>
+                <button type="submit" class="delete-button">-</button>
+            <% } %>
+        </form>
+    </div>
+    <script src="/script.js"></script>
+</body>
+</html>
