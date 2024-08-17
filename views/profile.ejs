@@ -2,78 +2,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- External CSS -->
     <link rel="stylesheet" href="styles.css">
-    <title>Profile</title>
+    
     <style>
+        /* Global Styles */
         body {
             font-family: 'Merriweather', serif;
             background-color: #f4f4f4;
             color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+
+        /* Navbar Styles */
         .navbar {
             background-color: #8EBA66;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
-            padding: 10px 0;
+            padding: 10px 20px;
             border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+
+        .navbar img {
+            height: 40px;
+            margin-right: 15px;
+        }
+
         .navbar a {
             color: white;
-            padding: 10px 15px;
+            padding: 10px 20px;
             text-decoration: none;
-            border: none;
-            cursor: pointer;
             font-size: 16px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
             border-radius: 5px;
         }
+
         .navbar a:hover {
             background-color: #47763B;
             transform: scale(1.05);
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
+
+        .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-icon {
+      font-size: 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-action {
+      display: none;
+      position: absolute;
+      right:0%;
+      top: 100%; /* Positions the link directly below the icon */
+      background-color: #8EBA66;
+      padding: 10px 20px;
+      border-radius: 5px;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .profile-dropdown:hover .auth-action {
+      display: block;
+    }
+        /* Container Styles */
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             width: 80%;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
+
+        /* Headings */
         h1 {
             color: #8EBA66;
             font-family: 'Merriweather', serif;
+            margin-bottom: 20px;
         }
+
+        /* Profile Info Styles */
         .profile-info {
             margin-top: 20px;
             font-size: 18px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .profile-info p {
+            margin: 10px 0;
+        }
+
+        .profile-info strong {
+            color: #8EBA66;
+        }
+
+        /* Footer to keep content centered vertically if necessary */
+        .footer {
+            margin-top: auto;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
         }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <div class="navbar">
-        <a href="/">Home</a>
-        <a href="/advice">Advice</a>
-        <a href="/opportunities">Opportunities</a>
-        <a href="/calendar">Calendar</a>
-        <a href="/writing-help">Writing Help</a>
-        <a href="/information">Information</a>
-        <a href="/fellows">Fellows</a>
-        <a href="/profile">Profile</a>
-        <a href="/logout">Logout</a>
+    <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"></a>
+    <a href="/advice/grammar">Advice</a>
+    <a href="/opportunities">Resources</a>
+    <a href="/calendar">Calendar</a>
+    <a href="/fellows">Fellows</a>
+
+    <!-- Profile Button with Dropdown -->
+    <div class="profile-dropdown">
+      <a href="/profile" id="profile-link" class="profile-icon">
+        <i class="fas fa-user"></i>
+      </a>
+      <% if (user) { %>
+        <a href="/logout" id="auth-link" class="auth-action">Log out</a>
+      <% } else { %>
+        <a href="/login" id="auth-link" class="auth-action">Login</a>
+      <% } %>
     </div>
+  </div>
+
+    <!-- Main Content Container -->
     <div class="container">
         <h1>User Profile</h1>
         <div class="profile-info">
             <p><strong>Username:</strong> <%= user.username %></p>
             <p><strong>Status:</strong> <%= user.status %></p>
         </div>
+    </div>
+
+    <!-- Footer (optional) -->
+    <div class="footer">
+        &copy; 2024 Writing Center. All rights reserved.
     </div>
 </body>
 </html>

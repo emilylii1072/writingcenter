@@ -2,14 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Advice Center</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+
   <style>
     body {
       font-family: 'Merriweather', serif;
       background-color: #f4f4f4;
-      color: #333;
       background-image: linear-gradient(to right, #f4f4f4, #e8f5e9);
       margin: 0;
       padding: 0;
@@ -18,6 +26,7 @@
       height: 100vh;
       overflow-x: hidden; /* Prevent horizontal scrolling */
     }
+
     .navbar {
       background-color: #8EBA66;
       display: flex;
@@ -27,27 +36,58 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       flex-wrap: wrap;
     }
+
     .navbar img {
       width: 40px;
       height: 40px;
-      box-shadow: none;
       margin-right: 10px;
     }
-    .navbar a{
+
+    .navbar a {
       color: white;
       padding: 10px 15px;
       text-decoration: none;
-      border: none;
-      cursor: pointer;
       font-size: 16px;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, background-color 0.3s ease;
       border-radius: 5px;
     }
+
     .navbar a:hover {
       background-color: #47763B;
       transform: scale(1.05);
       box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
+
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-icon {
+      font-size: 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-action {
+      display: none;
+      position: absolute;
+      right:0%;
+      top: 100%; /* Positions the link directly below the icon */
+      background-color: #8EBA66;
+      padding: 10px 20px;
+      border-radius: 5px;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .profile-dropdown:hover .auth-action {
+      display: block;
+    }
+
     .sidebar {
       height: calc(100vh - 60px);
       width: 200px;
@@ -58,8 +98,9 @@
       background-color: #8EBA66;
       overflow-x: hidden;
       padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
+
     .sidebar a {
       padding: 10px 15px;
       text-decoration: none;
@@ -68,9 +109,11 @@
       display: block;
       transition: background-color 0.3s ease;
     }
+
     .sidebar a:hover, .sidebar a.active {
       background-color: #47763B;
     }
+
     .main-container {
       margin-left: 220px;
       padding: 20px;
@@ -82,6 +125,7 @@
       overflow-y: auto;
       margin-top: 60px;
     }
+
     .chat-container {
       display: flex;
       flex-direction: column;
@@ -89,23 +133,27 @@
       padding: 20px;
       background-color: white;
       border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
+
     .comment {
       background-color: #e8e8e8;
       border-radius: 5px;
       padding: 10px;
       margin: 10px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+
     .comment p {
       margin: 0;
       font-size: 16px;
     }
+
     .comment strong {
       color: #8EBA66;
     }
+
     .reply-btn {
       padding: 5px 10px;
       background-color: #8EBA66;
@@ -116,27 +164,31 @@
       font-size: 14px;
       margin-top: 10px;
       transition: background-color 0.3s, transform 0.3s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .reply-btn:hover {
       background-color: #47763B;
       transform: scale(1.05);
     }
+
     .replies {
       margin-top: 10px;
       padding-left: 20px;
       border-left: 2px solid #ccc;
     }
+
     .input-container {
       display: flex;
       flex-direction: column;
-      align-items: center; /* Center the content horizontally */
+      align-items: center;
       background-color: white;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       margin-top: 20px;
     }
+
     .comment-box {
       width: 100%;
       height: 100px;
@@ -145,8 +197,9 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+
     .submit-btn {
       padding: 10px 20px;
       background-color: #8EBA66;
@@ -156,9 +209,10 @@
       cursor: pointer;
       font-size: 16px;
       transition: background-color 0.3s, transform 0.3s;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       align-self: flex-end;
     }
+
     .submit-btn:hover {
       background-color: #47763B;
       transform: scale(1.05);
@@ -170,19 +224,23 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
       .navbar a {
         padding: 10px 0;
       }
+
       .sidebar {
         width: 100%;
         height: auto;
         position: relative;
         padding: 10px;
       }
+
       .main-container {
         margin-left: 0;
         width: 100%;
       }
+
       .input-container {
         padding: 10px;
       }
@@ -193,50 +251,18 @@
         width: 30px;
         height: 30px;
       }
+
       .navbar a {
         font-size: 14px;
       }
+
       .comment-box {
-        width: 100%;
         height: 80px;
       }
+
       .submit-btn {
         padding: 8px 16px;
         font-size: 14px;
-      }
-    }
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .navbar a {
-        padding: 10px 0;
-      }
-      .container {
-        width: 90%;
-      }
-      h1 {
-        font-size: 28px;
-      }
-      .poster-image {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .navbar img {
-        width: 30px;
-        height: 30px;
-      }
-      .navbar a, .sign-in {
-        font-size: 14px;
-      }
-      h1 {
-        font-size: 24px;
-      }
-      p {
-        font-size: 16px;
       }
     }
   </style>
@@ -244,17 +270,31 @@
 <body>
   <div class="navbar">
     <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"></a>
-    <a href="/advice">Advice</a>
+    <a href="/advice/grammar">Advice</a>
     <a href="/opportunities">Resources</a>
     <a href="/calendar">Calendar</a>
     <a href="/fellows">Fellows</a>
+
+    <!-- Profile Button with Dropdown -->
+    <div class="profile-dropdown">
+      <a href="/profile" id="profile-link" class="profile-icon">
+        <i class="fas fa-user"></i>
+      </a>
+      <% if (user) { %>
+        <a href="/logout" id="auth-link" class="auth-action">Log out</a>
+      <% } else { %>
+        <a href="/login" id="auth-link" class="auth-action">Login</a>
+      <% } %>
+    </div>
   </div>
+
   <div class="sidebar">
     <a href="/advice/grammar" class="<%= group === 'grammar' ? 'active' : '' %>">Grammar</a>
     <a href="/advice/thesis" class="<%= group === 'thesis' ? 'active' : '' %>">Thesis</a>
     <a href="/advice/analysis" class="<%= group === 'analysis' ? 'active' : '' %>">Analysis</a>
     <a href="/advice/creative" class="<%= group === 'creative' ? 'active' : '' %>">Creative</a>
   </div>
+
   <div class="main-container">
     <div class="chat-container" id="comments"></div>
     <div class="input-container">
@@ -262,6 +302,7 @@
       <button class="submit-btn" onclick="postComment()">Submit</button>
     </div>
   </div>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       fetchComments();
@@ -277,27 +318,41 @@
     }
 
     function renderComments(comments) {
+      const status = "<%= status %>"; // Get user status
       const commentsContainer = document.getElementById('comments');
       commentsContainer.innerHTML = '';
       comments.filter(comment => !comment.parentId).forEach(comment => {
         const commentElement = document.createElement('div');
         commentElement.className = 'comment';
-        commentElement.innerHTML = `
-          <p><strong>${comment.status.charAt(0).toUpperCase() + comment.status.slice(1)}:</strong> ${comment.content}</p>
-          <button class="reply-btn" onclick="showReplyBox('${comment._id}')">Reply</button>
-          <div class="replies" id="replies-${comment._id}"></div>
-        `;
+        if (status === 'admin') {
+          commentElement.innerHTML = `
+            <p><strong>${comment.name.charAt(0).toUpperCase() + comment.name.slice(1)}:</strong> ${comment.content}</p>
+            <button class="reply-btn" onclick="showReplyBox('${comment._id}')">Reply</button>
+            <div class="replies" id="replies-${comment._id}"></div>
+          `;
+        } else {
+          commentElement.innerHTML = `
+            <p><strong>${comment.status.charAt(0).toUpperCase() + comment.status.slice(1)}:</strong> ${comment.content}</p>
+            <button class="reply-btn" onclick="showReplyBox('${comment._id}')">Reply</button>
+            <div class="replies" id="replies-${comment._id}"></div>
+          `;
+        }
         commentsContainer.appendChild(commentElement);
         renderReplies(comment.replies, `replies-${comment._id}`);
       });
     }
 
     function renderReplies(replies, containerId) {
+      const status = "<%= status %>"; // Get user status
       const repliesContainer = document.getElementById(containerId);
       replies.forEach(reply => {
         const replyElement = document.createElement('div');
         replyElement.className = 'comment';
-        replyElement.innerHTML = `<p><strong>${reply.status.charAt(0).toUpperCase() + reply.status.slice(1)}:</strong> ${reply.content}</p>`;
+        if (status === 'admin') {
+          replyElement.innerHTML = `<p><strong>${reply.name.charAt(0).toUpperCase() + reply.name.slice(1)}:</strong> ${reply.content}</p>`;
+        } else {
+          replyElement.innerHTML = `<p><strong>${reply.status.charAt(0).toUpperCase() + reply.status.slice(1)}:</strong> ${reply.content}</p>`;
+        }
         repliesContainer.appendChild(replyElement);
       });
     }
@@ -320,13 +375,14 @@
       const content = document.getElementById('commentContent').value;
       const group = "<%= group %>"; // Get the group from the server-side rendered variable
       const status = "<%= status %>"; // Get user status
+      const name = "<%= name %>"; // Get user name
 
       fetch('/comments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content, group, status })
+        body: JSON.stringify({ content, group, status, name })
       })
       .then(response => response.json())
       .then(comment => {
@@ -338,13 +394,14 @@
     function postReply(parentId, content) {
       const group = "<%= group %>"; // Get the group from the server-side rendered variable
       const status = "<%= status %>"; // Get user status
+      const name = "<%= name %>"; // Get user name
 
       fetch('/comments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content, group, status, parentId })
+        body: JSON.stringify({ content, group, status, name, parentId })
       })
       .then(response => response.json())
       .then(reply => {

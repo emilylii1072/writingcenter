@@ -13,6 +13,7 @@ import Product from './models/Product.js';
 import dotenv from 'dotenv'; 
 dotenv.config({ path: 'process.env' });
 
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +22,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 configurePassport(passport); // Configuring passport
+
 
 // Session setup
 app.use(session({

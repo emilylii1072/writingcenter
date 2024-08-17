@@ -206,11 +206,14 @@
     <div class="navbar">
         <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"> <!-- Logo --></a>
         <a href="/advice/grammar">Advice</a>
-        <a href="/opportunities">Opportunities</a>
+        <a href="/opportunities">Resources</a>
         <a href="/calendar">Calendar</a>
-        <a href="/writing-help">Writing Help</a>
-        <a href="/information">Information</a>
         <a href="/fellows">Fellows</a>
+        <% if (user) { %>
+            <a href="/logout">Log out</a>
+        <% } else { %>
+            <a href="/login">Login</a>
+        <% } %>
     </div>
     <div class="sidebar">
         <a href="opportunities" class="<%= type === 'opportunities' ? 'active' : '' %>">Opportunities</a>

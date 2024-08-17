@@ -17,22 +17,22 @@ router.get('/', ctrl.renderIndex);
 router.get('/advice', ctrl.renderAdvice);
 
 // Resources Page Routes
-router.get('/resources/:type', auth.isAuthenticated, ctrl.renderResourceGroup);
-router.get('/resources/:type/new', auth.isAdmin, ctrl.renderNewResourceForm);
-router.post('/resources/:type/new', auth.isAdmin, ctrl.createResource);
+router.get('/resources/:type', ctrl.renderResourceGroup);
+router.get('/resources/:type/new', auth.isFellow, ctrl.renderNewResourceForm);
+router.post('/resources/:type/new', auth.isFellow, ctrl.createResource);
 router.post('/resources/:type/delete', auth.isAuthenticated, auth.isAdmin, ctrl.deleteResources);
 
 // Opportunities Page Route
 router.get('/opportunities', ctrl.renderOpportunities);
-router.get('/opportunities/new', auth.isAdmin, ctrl.renderNewOpportunity);
-router.post('/opportunities/new', auth.isAdmin, ctrl.createOpportunity);
+router.get('/opportunities/new', auth.isFellow, ctrl.renderNewOpportunity);
+router.post('/opportunities/new', auth.isFellow, ctrl.createOpportunity);
 router.post('/opportunities/delete', auth.isAuthenticated, auth.isAdmin, ctrl.deleteOpportunities);
 
 // Profile Page Route
-router.get('/profile', ctrl.renderProfile);
+router.get('/profile', auth.isAuthenticated, ctrl.renderProfile);
 
 // Advice Group Route
-router.get('/advice/:group', ctrl.renderAdviceGroup);
+router.get('/advice/:group', auth.isAuthenticated, ctrl.renderAdviceGroup);
 
 // Comments Routes
 router.get('/comments/:group', ctrl.fetchComments);

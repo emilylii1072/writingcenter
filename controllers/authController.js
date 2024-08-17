@@ -18,8 +18,8 @@ export const register = (req, res) => {
 
 export const verifyRegister = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = new Customer({ username, password });
+    const { username, email, password } = req.body;
+    const user = new Customer({ username, email, password });
     await user.save();
     res.redirect('/login');
   } catch (error) {
@@ -113,6 +113,14 @@ export const isAuthenticated = (req, res, next) => {
 // Middleware to check for admin role
 export const isAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.user.status == 'admin') {
+    return next();
+  }
+  // If the user is not an admin, redirect them or show an error
+  res.status(403).send('Access denied');
+}
+
+export const isFellow = (req, res, next) => {
+  if (req.isAuthenticated() && (req.user.status == 'fellow' || req.user.status == 'admin')) {
     return next();
   }
   // If the user is not an admin, redirect them or show an error

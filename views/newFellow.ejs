@@ -58,8 +58,10 @@
     <div class="container">
         <h1>Add New Fellow</h1>
         <form action="/fellows/new" method="post" enctype="multipart/form-data">
-            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="name" placeholder="Name (First Last)" required>
             <textarea name="description" placeholder="Description" required></textarea>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
             <input type="text" name="day" placeholder="Day" required>
             <input type="file" name="image" accept="image/*" required>
             <button type="submit">Add Fellow</button>

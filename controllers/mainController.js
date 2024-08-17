@@ -5,7 +5,7 @@ import Feedback from '../models/Feedback.js';
 import Event from '../models/Event.js';
 import Resource from '../models/Resource.js';
 import Fellow from '../models/Fellow.js';
-
+import nodemailer from "nodemailer";
 import multer from 'multer';
 import path from 'path';
 
@@ -20,10 +20,26 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    secure: true,
+    port: 465,
+    ciphers: "SSLv3",
+    auth: 
+    {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+
+
+
+
 export const renderFellows = async (req, res) => {
     try {
         const fellows = await Fellow.find({});
-        res.render('fellows', { fellows, status: req.user ? req.user.status : 'guest' });
+        res.render('fellows', { user: req.user, fellows, status: req.user ? req.user.status : 'guest' });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -37,10 +53,12 @@ export const createFellow = [
     upload.single('image'),
     async (req, res) => {
         try {
-            const { name, description, day } = req.body;
+            const { name, description, email, password, day } = req.body;
             const image = req.file ? `/images/${req.file.filename}` : '';
-            const newFellow = new Fellow({ name, description, day, image });
+            const newFellow = new Fellow({ name, description, email, day, image });
+            const newUser = new Customer({ username: name, email, password });
             await newFellow.save();
+            await newUser.save();
             res.redirect('/fellows');
         } catch (error) {
             res.status(500).send(error.message);
@@ -49,28 +67,31 @@ export const createFellow = [
 ];
 
 export const renderIndex = (req, res) => {
-    res.render('index');  // Uses views/index.ejs
+    res.render('index', {user: req.user});  // Uses views/index.ejs
 };
 
 export const renderAdvice = (req, res) => {
-    res.render('advice');  // Uses views/advice.ejs
+    res.render('advice', {user: req.user});  // Uses views/advice.ejs
 };
 
 export const renderAdviceGroup = (req, res) => {
     const group = req.params.group;
     const status = req.user ? req.user.status : 'guest';
-    res.render('advice', { group, status });  // Pass the group and status to the view
+    const name = req.user ? req.user.username : 'anonymous';
+    res.render('advice', { user: req.user, group, name, status });  // Pass the group and status to the view
 };
 
 export const renderOpportunities = async (req, res) => {
     try {
         const opportunities = await Opportunities.find({});
         const status = req.user ? req.user.status : 'guest';
-        res.render('opportunities', { opportunities, status: status });
+        res.render('opportunities', { user: req.user, opportunities, status: status });
     } catch (error) {
         res.status(500).send(error.message);
     }
 };
+
+
 
 export const renderNewOpportunity = async (req, res) => {
     let customer = await Customer.findById(req.user._id);
@@ -80,17 +101,37 @@ export const renderNewOpportunity = async (req, res) => {
 export const createOpportunity = async (req, res) => {
     try {
         const { title, description, deadline, link, type } = req.body;
-        const newOpportunity = new Opportunities({ title, description, deadline, link, type });
-        await newOpportunity.save();
+        // Check if the user is a fellow
+        if (req.user && req.user.status === 'fellow') {
+            // Query for all admin emails
+            const admins = await Customer.find({ status: 'admin' }); // Assuming User model exists and admins are marked with role
+            const adminEmails = admins.map(admin => admin.email).join(", ");
+            console.log(adminEmails);
+            // Send the email
+            transporter.sendMail({
+               to: adminEmails,
+               subject: `New Opportunity Added by Fellow ${req.user.username}`,
+               html: `<p>A new opportunity titled "${title}" has been added by fellow ${req.user.name}.</p>`
+            }).then(() => {
+                console.log("email sent");
+            }).catch(err => {
+                console.error(err);
+            });
+            
+            const newOpportunity = new Opportunities({ title, description, deadline, link, type });
+            await newOpportunity.save();
+        }
+
         res.redirect('/opportunities');
     } catch (error) {
+        console.log('Failed to create opportunity:', error);
         res.status(500).send(error.message);
     }
 };
 
+
 export const renderProfile = async (req, res) => {
-    let customer = await Customer.findById(req.user._id);
-    res.render('profile', { user: customer });  // New function to render profile page
+    res.render('profile', { user: req.user });  // New function to render profile page
 };
 
 export const deleteOpportunities = async (req, res) => {
@@ -121,7 +162,8 @@ export const postComment = async (req, res) => {
     const { content, group, parentId } = req.body;
     let customer = await Customer.findById(req.user._id);
     const status = customer.status || 'guest';
-    const newComment = new Comment({ content, group, status, parentId });
+    const name = customer.username || 'anonymous';
+    const newComment = new Comment({ content, group, name, status, parentId });
 
     if (parentId) {
       const parentComment = await Comment.findById(parentId);

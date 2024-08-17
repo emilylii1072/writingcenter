@@ -6,6 +6,7 @@
     <title>Calendar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: 'Merriweather', serif;
@@ -47,6 +48,35 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
       
+        .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-icon {
+      font-size: 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-action {
+      display: none;
+      position: absolute;
+      right:0%;
+      top: 100%; /* Positions the link directly below the icon */
+      background-color: #8EBA66;
+      padding: 10px 20px;
+      border-radius: 5px;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .profile-dropdown:hover .auth-action {
+      display: block;
+    }
         .calendar-container {
             display: flex;
             flex-direction: column;
@@ -239,12 +269,24 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"> <!-- Logo --></a>
-        <a href="/advice/grammar">Advice</a>
-        <a href="/opportunities">Resources</a>
-        <a href="/calendar">Calendar</a>
-        <a href="/fellows">Fellows</a>
+    <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"></a>
+    <a href="/advice/grammar">Advice</a>
+    <a href="/opportunities">Resources</a>
+    <a href="/calendar">Calendar</a>
+    <a href="/fellows">Fellows</a>
+
+    <!-- Profile Button with Dropdown -->
+    <div class="profile-dropdown">
+      <a href="/profile" id="profile-link" class="profile-icon">
+        <i class="fas fa-user"></i>
+      </a>
+      <% if (user) { %>
+        <a href="/logout" id="auth-link" class="auth-action">Log out</a>
+      <% } else { %>
+        <a href="/login" id="auth-link" class="auth-action">Login</a>
+      <% } %>
     </div>
+  </div>
     <div class="calendar-container">
         <div class="calendar-header">
             <button onclick="prevMonth()"><i class="fas fa-arrow-left"></i></button>

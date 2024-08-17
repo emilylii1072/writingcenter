@@ -8,10 +8,15 @@ const CustomerSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
   },
+
 //  purchases: {
 //    items: [{
 //      productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true },

@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>Resources</title>
     <style>
@@ -13,105 +15,146 @@
             background-image: linear-gradient(to right, #f4f4f4, #e8f5e9);
             margin: 0;
             padding: 0;
-      }
-      .navbar {
-        background-color: #8EBA66;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        flex-wrap: wrap;
-      }
-    .navbar img {
-        width: 40px;
-        height: 40px;
-        box-shadow: none;
-        margin-right: 10px;
-      }
-    .navbar a{
-        color: white;
-        padding: 10px 15px;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        transition: transform 0.3s ease;
-        border-radius: 5px;
-      }
-      .navbar a:hover {
-        background-color: #47763B;
-        transform: scale(1.05);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      }
+        }
+        .navbar {
+            background-color: #8EBA66;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+        .navbar a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        .navbar a:hover {
+            color: #e8f5e9;
+        }
+        .profile-dropdown {
+            position: relative;
+        }
+        .profile-icon {
+            font-size: 24px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .profile-icon:hover {
+            color: #e8f5e9;
+        }
+        .auth-action {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #8EBA66;
+            padding: 10px 20px;
+            border-radius: 5px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-dropdown:hover .auth-action {
+            display: block;
+        }
         .sidebar {
             width: 200px;
             background-color: #8EBA66;
             padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
             position: fixed;
             top: 60px;
             bottom: 0;
             overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
         .sidebar a {
             display: block;
             color: white;
             padding: 10px;
             text-decoration: none;
-            margin-bottom: 10px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            cursor: pointer;
         }
         .sidebar a:hover, .sidebar a.active {
             background-color: #47763B;
         }
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: calc(100% - 220px);
             margin-left: 220px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
             margin-top: 80px;
         }
         h1 {
             color: #8EBA66;
-            font-family: 'Merriweather', serif;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            width: 50%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .sort-options {
+            display: flex;
+            gap: 10px;
+        }
+        .sort-button {
+            padding: 10px 15px;
+            background-color: #8EBA66;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .sort-button:hover {
+            background-color: #47763B;
         }
         .grid {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            gap: 20px;
         }
         .card {
-            position: relative;
-            width: calc(50% - 20px); /* Adjusted width */
-            margin: 10px;
-            padding: 20px;
+            width: calc(33.333% - 20px);
             background-color: #fff;
+            padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            min-height: 150px; /* Ensure enough height for content */
+            min-height: 150px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
         .card:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
         .card h2 {
             margin: 0;
-            font-size: 20px;
+            font-size: 18px;
             color: #8EBA66;
             word-break: break-word;
         }
@@ -120,41 +163,18 @@
             color: #666;
         }
         .card .description {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 10px;
-            opacity: 0;
-            overflow-y: auto;
-            transition: opacity 0.3s ease;
-            text-align: left;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
             font-size: 14px;
-            pointer-events: none; /* Allow checkbox to be clickable */
+            color: #444;
+            display: none;
         }
         .card:hover .description {
-            opacity: 1;
-            pointer-events: auto; /* Allow interactions when hovered */
+            display: block;
         }
-        <% if (status === 'admin') { %>
-            .card input[type="checkbox"] {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                z-index: 2;
-            }
-        <% } %>
         .plus-button, .delete-button {
-            display: none; /* Hide buttons initially */
-        }
-        <% if (status === 'admin') { %>
-            .plus-button, .delete-button {
-                display: block; /* Show buttons for admin */
-            }
-        <% } %>
-        .plus-button, .delete-button {
+            display: none;
             position: fixed;
             background-color: #8EBA66;
             color: white;
@@ -171,19 +191,27 @@
             right: 20px;
         }
         .delete-button {
-            background-color: #E74C3C; /* Red button for delete */
-            bottom: 80px; /* Adjust position above the plus button */
+            background-color: #E74C3C;
+            bottom: 80px;
             right: 20px;
         }
+        <% if (status === 'admin' || status === 'fellow') { %>
+            .plus-button, .delete-button {
+                display: block;
+            }
+            .card input[type="checkbox"] {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 2;
+            }
+        <% } %>
 
         /* Responsive Styles */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
                 align-items: flex-start;
-            }
-            .navbar a {
-                padding: 10px 0;
             }
             .container {
                 width: 90%;
@@ -195,11 +223,11 @@
                 position: relative;
                 padding: 10px;
             }
-            h1 {
-                font-size: 28px;
+            .grid {
+                gap: 10px;
             }
             .card {
-                width: 100%;
+                width: calc(50% - 10px);
             }
         }
 
@@ -217,6 +245,9 @@
             p {
                 font-size: 16px;
             }
+            .card {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -224,9 +255,21 @@
     <div class="navbar">
         <a href="/"><img src="/images/westridge.png" alt="Westridge Logo"></a>
         <a href="/advice/grammar">Advice</a>
-        <a href="/opportunities">Opportunities</a>
+        <a href="/opportunities">Resources</a>
         <a href="/calendar">Calendar</a>
         <a href="/fellows">Fellows</a>
+
+        <!-- Profile Button with Dropdown -->
+        <div class="profile-dropdown">
+            <a href="/profile" id="profile-link" class="profile-icon">
+                <i class="fas fa-user"></i>
+            </a>
+            <% if (user) { %>
+                <a href="/logout" id="auth-link" class="auth-action">Log out</a>
+            <% } else { %>
+                <a href="/login" id="auth-link" class="auth-action">Login</a>
+            <% } %>
+        </div>
     </div>
     <div class="sidebar">
         <a href="#" class="resource-link" data-type="opportunities">Opportunities</a>
@@ -236,34 +279,58 @@
     </div>
     <div class="container">
         <h1 id="resourceTitle">Opportunities</h1>
+        <div class="controls">
+            <input type="text" id="searchBox" class="search-box" placeholder="Search by title...">
+            <div class="sort-options">
+                <button class="sort-button" id="sortName">Sort by Name</button>
+                <button class="sort-button" id="sortDate">Sort by Due Date</button>
+            </div>
+        </div>
         <form id="deleteForm" action="/opportunities/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete the selected resources?');">
             <div class="grid" id="resourceGrid">
-                <!-- Resources will be dynamically inserted here -->
+                <% opportunities.forEach(opportunity => { %>
+                    <div class="card">
+                        <% if (status === 'admin' || status === 'fellow') { %>
+                            <input type="checkbox" name="opportunities" value="<%= opportunity._id %>">
+                        <% } %>
+                        <a href="<%= opportunity.link %>" target="_blank">
+                            <h2><%= opportunity.title %></h2>
+                            <% if (opportunity.deadline) { %>
+                                <p>Due Date: <%= new Date(opportunity.deadline).toDateString() %></p>
+                            <% } %>
+                            <div class="description">
+                                <p><%= opportunity.description %></p>
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
             </div>
             <% if (status === 'admin') { %>
-                <a href="opportunities/new"><button type="button" class="plus-button">+</button></a>
                 <button type="submit" class="delete-button">-</button>
             <% } %>
         </form>
-    </div>
+        <% if (status === 'admin' || status === 'fellow') { %>
+            <a href="opportunities/new"><button type="button" class="plus-button">+</button></a>
+        <% } %>
+    </div> 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const opportunities = <%- JSON.stringify(opportunities) %>;
             const resourceLinks = document.querySelectorAll('.resource-link');
             const resourceTitle = document.getElementById('resourceTitle');
             const resourceGrid = document.getElementById('resourceGrid');
-            const plusButton = document.querySelector('.plus-button');
+            const searchBox = document.getElementById('searchBox');
+            const sortNameButton = document.getElementById('sortName');
+            const sortDateButton = document.getElementById('sortDate');
 
-            function renderResources(type) {
-                resourceTitle.textContent = type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ');
+            function renderResources(resources) {
                 resourceGrid.innerHTML = '';
-                const filteredResources = opportunities.filter(resource => resource.type === type);
-                filteredResources.forEach(resource => {
+                resources.forEach(resource => {
                     const card = document.createElement('div');
                     card.classList.add('card');
                     card.innerHTML = `
-                        <% if (status === 'admin') { %>
-                        <input type="checkbox" name="resources" value="${resource._id}">
+                        <% if (status === 'admin' || status === 'fellow') { %>
+                        <input type="checkbox" name="opportunities" value="${resource._id}">
                         <% } %>
                         <a href="${resource.link}" target="_blank">
                             <h2>${resource.title}</h2>
@@ -275,17 +342,35 @@
                     `;
                     resourceGrid.appendChild(card);
                 });
-
-                if (status === 'admin') {
-                    plusButton.href = `/${type}/new`;
-                }
             }
+
+            function filterAndRenderResources() {
+                const searchTerm = searchBox.value.toLowerCase();
+                const filteredResources = opportunities.filter(resource => resource.title.toLowerCase().includes(searchTerm));
+                renderResources(filteredResources);
+            }
+
+            function sortResourcesByName() {
+                opportunities.sort((a, b) => a.title.localeCompare(b.title));
+                filterAndRenderResources();
+            }
+
+            function sortResourcesByDate() {
+                opportunities.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+                filterAndRenderResources();
+            }
+
+            searchBox.addEventListener('input', filterAndRenderResources);
+            sortNameButton.addEventListener('click', sortResourcesByName);
+            sortDateButton.addEventListener('click', sortResourcesByDate);
 
             resourceLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const type = link.dataset.type;
-                    renderResources(type);
+                    resourceTitle.textContent = type.charAt(0).toUpperCase() + type.slice(1).replace('-', ' ');
+                    const filteredResources = opportunities.filter(resource => resource.type === type);
+                    renderResources(filteredResources);
 
                     resourceLinks.forEach(link => link.classList.remove('active'));
                     link.classList.add('active');
@@ -293,7 +378,7 @@
             });
 
             // Initial render
-            renderResources('opportunities');
+            renderResources(opportunities);
         });
     </script>
 </body>
