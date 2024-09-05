@@ -44,7 +44,7 @@ router.post('/signin', ctrl.submitFeedback);
 
 // Calendar Routes
 router.get('/calendar', ctrl.renderCalendar);
-router.post('/events', auth.isAdmin, ctrl.createEvent);
+router.post('/events', auth.isFellow, ctrl.createEvent);
 router.get('/events', ctrl.getEvents);
 router.get('/events/:date', ctrl.getEventByDate);
 

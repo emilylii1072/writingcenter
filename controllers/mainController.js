@@ -95,7 +95,7 @@ export const renderOpportunities = async (req, res) => {
 
 export const renderNewOpportunity = async (req, res) => {
     let customer = await Customer.findById(req.user._id);
-    res.render('newOpportunity', { user: customer });  // Uses views/newOpportunity.ejs
+    res.render('newopportunity', { user: customer });  // Uses views/newOpportunity.ejs
 };
 
 export const createOpportunity = async (req, res) => {
